@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generic_POS_System", "Generic_POS_System\Generic_POS_System.csproj", "{2E4B16E3-7282-43DF-A929-F42B5866A468}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Generic_POS_System", "Generic_POS_System\Generic_POS_System.csproj", "{2E4B16E3-7282-43DF-A929-F42B5866A468}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
