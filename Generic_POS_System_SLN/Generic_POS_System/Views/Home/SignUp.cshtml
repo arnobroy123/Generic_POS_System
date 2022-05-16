@@ -1,0 +1,132 @@
+﻿@*@{
+    ViewData["Title"] = "Sign Up";
+}*@
+<div class="container bg-warning my-4 shadow bg-body rounded">
+    <form class="form-group">
+        <h1 class="display-2 text-center" style="font-weight: 400">Sign Up</h1>
+        <div class="row g-2">
+            <div class="col-md-6">
+                <label for="firstName">First Name</label>
+                <input type="text"
+                       class="form-control"
+                       id="firstName"
+                       placeholder="First Name" />
+            </div>
+            <div class="col-md-6">
+                <label for="inputPassword4">Last Name</label>
+                <input type="text"
+                       class="form-control"
+                       id="inputPassword4"
+                       placeholder="Last Name" />
+            </div>
+            <div class="col-md-12">
+                <label for="address">Address</label>
+                <input type="text"
+                       class="form-control"
+                       id="address"
+                       placeholder="Apartment, studio, or floor" />
+                <div class="col-md-12">
+                    <label for="address2">Address2</label>
+                    <input type="text"
+                           class="form-control"
+                           id="address2"
+                           placeholder="Apartment, studio, or floor" />
+                </div>
+            </div>
+            <div class="col-6">
+                <label for="email">Email</label>
+                <input type="email"
+                       class="form-control"
+                       id="email"
+                       placeholder="john@something.com" />
+            </div>
+            <div class="col-6">
+                <label for="phone">Phone</label>
+                <input type="tel"
+                       class="form-control"
+                       id="phone"
+                       placeholder="016-2453652"
+                       pattern="[0-9]{3}-[0-9]{3}[0-9]{5}" />
+            </div>
+            <div class="col-6">
+                <label for="dob">Date of Birth</label>
+                <input type="date"
+                       class="form-control"
+                       id="dob"
+                       placeholder="24-Oct-2021" />
+            </div>
+            <div class="col-6 disabled">
+                <label for="genDate">Gen Date</label>
+                <input type="datetime"
+                       class="form-control"
+                       id="dateTime"
+                       disabled />
+            </div>
+            <div class="col-12">
+                <label for="userType">User Type</label>
+                <div class="input-group">
+                    <select name="" id="userType" class="form-control form-select">
+                        <option value="">Choose Type</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Customer">Customer</option>
+                        <option value="Manager">Manager</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row g-2">
+            <div class="col-md-12">
+                <label for="userId">User Id</label>
+                <input type="userId"
+                       class="form-control"
+                       id="userId"
+                       placeholder="Must be unique, (no spaces or special character allowed)" />
+            </div>
+            <div class="col-sm-6">
+                <label for="password">Password</label>
+                <input type="password"
+                       class="form-control"
+                       id="password"
+                       placeholder="(no spaces or special character allowed)" />
+            </div>
+            <div class="col-sm-6">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password"
+                       class="form-control"
+                       id="confirmPassword"
+                       placeholder="(no spaces or special character allowed)" />
+            </div>
+            <div class="d-grid d-block col-md-12">
+                <button type="submit" class="btn btn-outline-danger mb-2 mt-2">
+                    Sign Up
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="top3"></div>
+<script>
+    var date = new Date();
+    var hour = date.getHours();
+    var state;
+    if (hour >= 0) {
+        state = "AM";
+    } else if (hour >= 12) {
+        state = "PM";
+    }
+    if (hour > 12) {
+        hour = hour - 12;
+    } else if (hour == 0) {
+        hour = hour + 12;
+    }
+    var min = date.getMinutes();
+    var sec = date.getSeconds();
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var currentDate = String(date.getDate()).padStart(2, "0");
+    var timePattern = hour + ":" + min + ":" + sec;
+    var datePattern = currentDate + "-" + month + "-" + year;
+    document.getElementById("dateTime").value =
+        datePattern + " " + timePattern + " " + state;
+</script>
+

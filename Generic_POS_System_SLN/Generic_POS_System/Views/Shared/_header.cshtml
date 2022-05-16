@@ -1,0 +1,40 @@
+﻿<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index"> <i class="fas fa-solid fa-cart-plus"></i> P O S</a>
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Product" asp-action="AddNewProduct">Add Product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Product" asp-action="GetAllProducts">All Products</a>
+                    </li>
+                </ul>
+                <button class="btn btn-outline-secondary"
+                        type="button"
+                        onclick="window.location.href='/home/signup';">
+                    Sign Up
+                </button>
+                <button class="btn btn-outline-info mx-1" type="button" onclick="window.location.href='/home/login';">
+                    Log In
+                </button>
+            </div>
+        </div>
+    </nav>
+</header>

@@ -1,0 +1,71 @@
+﻿@model ProductModel
+
+<div class="container py-5">
+    <h3>Add New Product</h3>
+    <hr />
+    @if (ViewBag.IsSuccess == true)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Done!</strong>Product Added Successfully.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <form class="form-group" enctype="multipart/form-data" method="post">
+        <div class="row g-3">
+            <div class="col-md-12">
+                <label asp-for="productName" class="fw-bold"></label>
+                <input asp-for="productName" class="form-control" />
+                <span asp-validation-for="productName" class="text-danger fw-light"></span>
+            </div>
+
+
+            <div class="col-md-12">
+                <label asp-for="totalProducts" class="fw-bold"></label>
+                <input asp-for="totalProducts" class="form-control" />
+                <span asp-validation-for="totalProducts" class="text-danger fw-light"></span>
+
+            </div>
+
+            <div class="col-12">
+                <label asp-for="unitPrice" class="fw-bold"></label>
+                <input asp-for="unitPrice" class="form-control" />
+                <span asp-validation-for="unitPrice" class="text-danger fw-light"></span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="productDiscount" class="fw-bold"></label>
+                <input asp-for="productDiscount" class="form-control fs-6" />
+            </div>
+
+            <div class="col-12">
+                <label asp-for="productType" class="fw-bold"></label>
+                <input asp-for="productType" class="form-control" />
+                <span asp-validation-for="productType" class="text-danger fw-light"></span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="photoUrl" class="fw-bold"></label>
+                <div class="input-group mb-3">
+                    <input asp-for="photoUrl" class="form-control" id="inputGroupFile01">
+                </div>
+                <span asp-validation-for="photoUrl" class="text-danger fw-light"></span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="arcadeFiles" class="fw-bold"></label>
+                <div class="input-group mb-3">
+                    <input asp-for="arcadeFiles" class="form-control" id="inputGroupFile01">
+                </div>
+                <span asp-validation-for="arcadeFiles" class="text-danger fw-light"></span>
+            </div>
+
+
+            <div class="col-12">
+
+                <button type="submit" class="btn btn-success"><i class="fa-solid fa-plus"></i> Add Product</button>
+
+            </div>
+        </div>
+    </form>
+</div>

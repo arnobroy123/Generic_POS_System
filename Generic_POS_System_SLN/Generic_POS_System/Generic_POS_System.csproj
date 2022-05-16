@@ -5,11 +5,32 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\js\" />
+    <Compile Remove="Migrations\20220503062341_Arnob.cs" />
+    <Compile Remove="Migrations\20220503062341_Arnob.Designer.cs" />
+    <Compile Remove="Migrations\20220503062421_DecimalFix.cs" />
+    <Compile Remove="Migrations\20220503062421_DecimalFix.Designer.cs" />
+    <Compile Remove="Migrations\20220503063702_AnnotationsAdded.cs" />
+    <Compile Remove="Migrations\20220503063702_AnnotationsAdded.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\js\" />
+    <Folder Include="wwwroot\products\arcade\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.25" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.23" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.24">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.24" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.24">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
   </ItemGroup>
 
 </Project>
