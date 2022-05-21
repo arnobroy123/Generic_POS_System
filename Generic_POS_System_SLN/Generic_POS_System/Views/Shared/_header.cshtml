@@ -1,4 +1,6 @@
-﻿<header>
+﻿@inject Microsoft.AspNetCore.Identity.SignInManager<AppUser> _logInManager
+
+<header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" asp-controller="Home" asp-action="Index"> <i class="fas fa-solid fa-cart-plus"></i> P O S</a>
@@ -19,21 +21,24 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Products</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Product" asp-action="AddNewProduct">Add Product</a>
-                    </li>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Product" asp-action="AddNewProduct">Add Product</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Admin" asp-action="Main">Dashboard</a>
+                        </li>
+                        
+                    }
+
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Product" asp-action="GetAllProducts">All Products</a>
                     </li>
                 </ul>
-                <button class="btn btn-outline-secondary"
-                        type="button"
-                        onclick="window.location.href='/home/signup';">
-                    Sign Up
-                </button>
-                <button class="btn btn-outline-info mx-1" type="button" onclick="window.location.href='/home/login';">
-                    Log In
-                </button>
+                <partial name="_Logout" />
             </div>
         </div>
     </nav>

@@ -11,6 +11,12 @@
     <Compile Remove="Migrations\20220503062421_DecimalFix.Designer.cs" />
     <Compile Remove="Migrations\20220503063702_AnnotationsAdded.cs" />
     <Compile Remove="Migrations\20220503063702_AnnotationsAdded.Designer.cs" />
+    <Compile Remove="Migrations\20220521224718_one-to-many-added.cs" />
+    <Compile Remove="Migrations\20220521224718_one-to-many-added.Designer.cs" />
+    <Compile Remove="Migrations\20220521233501_added-many-to-many.cs" />
+    <Compile Remove="Migrations\20220521233501_added-many-to-many.Designer.cs" />
+    <Compile Remove="Migrations\20220521233531_added-many-to-many.cs" />
+    <Compile Remove="Migrations\20220521233531_added-many-to-many.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

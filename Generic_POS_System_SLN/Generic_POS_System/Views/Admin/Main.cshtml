@@ -1,0 +1,102 @@
+﻿@model IEnumerable<AppUser>
+
+
+
+<div class="container-md">
+    <div class="row justify-content-center align-items-center text-center">
+        <div class="col-12">
+            <h1>User List</h1>
+        </div>
+    </div>
+
+    <a asp-action="AddUser" asp-controller="Admin" class="btn btn-outline-primary text-end">Add Manager</a>
+
+    <div class="row my-4 table-responsive table-bordered">
+        <div class="col-12">
+            <table class="table table-hover table-striped table-bordered table-dark">
+
+                <thead class="align-middle text-center table-success">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First Name <i class="fas fa-sort"></i></th>
+                        <th scope="col">Last Name <i class="fas fa-sort"></i></th>
+                        <th scope="col">Email <i class="fas fa-sort"></i></th>
+                        <th scope="col">Date of Birth</th>
+                        <th scope="col">User Name <i class="fas fa-sort"></i></th>
+                        <th scope="col">Join Date</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @{var count = 0; } 
+                    @foreach (var user in Model)
+                    {
+                        count++;
+                        //var dob = user.Dob.ToString("yyyy-MM-dd");
+                        <tr>
+                            <th scope="row">@count</th>
+                            <td>@user.FirstName</td>
+                            <td>@user.LastName</td>
+                            <td>@user.Email</td>
+                            <td>@user.Dob</td>
+                            <td>@user.UserName</td>
+                            <td>@user.JoinDate</td>
+                            <td>@user.PhoneNumber</td>
+                            <td>
+                                <div class="btn-group">
+                                    @{
+                                    
+                                        if (user.FirstName != "Admin")
+                                        {
+                                            <form asp-action="DeleteUser" asp-route-id="@user.Id" method="post">
+                                                <div class="d-grid gap-2 d-md-block">
+                                                    <a asp-action="Edit" asp-controller="Admin" asp-route-id="@user.Id" class="btn btn-outline-success mx-2"
+                                                       style="border-radius: 10px">
+                                                        Edit
+                                                    </a>
+                                                    <button type="submit" class="btn btn-outline-danger"
+                                                            style="border-radius: 10px">
+                                                        Delete
+                                                    </button>
+                                                </div>
+
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <div class="d-grid d-md-block">
+                                                <a asp-action="Edit" asp-controller="Admin" asp-route-id="@user.Id" class="btn btn-outline-success mx-2"
+                                                   style="border-radius: 10px">
+                                                    Edit
+                                                </a>
+                                            </div>
+
+                                        }
+
+
+                                    }
+
+
+
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+
+
+
+
+

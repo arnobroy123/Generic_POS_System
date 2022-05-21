@@ -29,6 +29,8 @@ namespace Generic_POS_System.Data
             [Column(TypeName = "decimal(7,2)")]
             public decimal? productDiscount { get; set; }
 
+            public Category Category { get; set; }
+
             public ICollection<ProductArcade> productArcade { get; set; }
 
     }

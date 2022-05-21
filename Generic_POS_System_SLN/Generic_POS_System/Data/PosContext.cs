@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Generic_POS_System.Mdoels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Protocols;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Generic_POS_System.Data
 {
-    public class PosContext : IdentityDbContext
+    public class PosContext : IdentityDbContext<AppUser>
     {
         public PosContext(DbContextOptions<PosContext> options)
             : base(options)
@@ -19,5 +20,7 @@ namespace Generic_POS_System.Data
         public DbSet<Products> Product { get; set; }
 
         public DbSet<ProductArcade> ProductArcade { get; set; }
+
+        public DbSet<Category> Category { get; set; }
     }
 }

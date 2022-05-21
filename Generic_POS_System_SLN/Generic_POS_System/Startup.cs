@@ -12,6 +12,9 @@ using Microsoft.Extensions.Hosting;
 using Generic_POS_System.Data;
 using Generic_POS_System.Repository;
 using Microsoft.AspNetCore.Identity;
+using Generic_POS_System.Mdoels;
+using Generic_POS_System.Seeder;
+using Generic_POS_System.Helper;
 
 namespace Generic_POS_System
 {
@@ -32,32 +35,63 @@ namespace Generic_POS_System
                 options.UseSqlServer(Configuration.GetConnectionString("dbConn")));
             services.AddControllersWithViews();
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<PosContext>();
+
+            services.Configure<IdentityOptions>(options =>
+                {
+                    options.Password.RequiredLength = 5;
+                    options.Password.RequiredUniqueChars = 1;
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                
+                });
+
+            services.ConfigureApplicationCookie(config =>
+            {
+                config.LoginPath = "/login";
+                config.AccessDeniedPath = new PathString("/account/accessdenied");
+
+            });
 #if DEBUG
             services.AddRazorPages().AddRazorRuntimeCompilation();
 #endif      
             services.AddScoped<ProductRepository, ProductRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
+
+            services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, AppUserClaimsPrincipalFactory>();
+            services.AddScoped<UserHelper, UserHelper>();
         }
 
             // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-            public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
+            public void Configure(IApplicationBuilder app, IWebHostEnvironment env, 
+                UserManager<AppUser> userManager, 
+                RoleManager<IdentityRole> roleManager)
             {
-                app.UseDeveloperExceptionPage();
+                if (env.IsDevelopment())
+                {
+                    app.UseDeveloperExceptionPage();
+                }
+
+                app.UseStaticFiles();
+
+                app.UseRouting();
+
+                app.UseAuthentication();
+                app.UseAuthorization();
+
+                SeedData.Seed(userManager, roleManager);
+
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapDefaultControllerRoute();
+
+                    /*endpoints.MapControllerRoute(
+                        name: "default",
+                        pattern: "{controller=Home}/{action=Index}");*/
+                });
             }
-
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseAuthentication();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapDefaultControllerRoute();
-            });
-        }
     }
 }

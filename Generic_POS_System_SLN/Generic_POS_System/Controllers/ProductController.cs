@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Generic_POS_System.Mdoels;
 using Generic_POS_System.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -54,6 +55,7 @@ namespace Generic_POS_System.Controllers
             return $"Product with name = {prodName} & Type = {prodType}";
         }
 
+        [Authorize(Roles = "Admin, Salesman ")]
         public ViewResult AddNewProduct(bool value = false)
         {
             Title = "Add Product";
@@ -62,9 +64,11 @@ namespace Generic_POS_System.Controllers
             return View();
         }
 
+        /*[ModelStateValidate]*/
         [HttpPost]
         public async Task<IActionResult> AddNewProduct(ProductModel productModel)
         {
+
             if (ModelState.IsValid)
             {
                 if (productModel.photoUrl != null)
@@ -101,13 +105,13 @@ namespace Generic_POS_System.Controllers
 
             }
 
-            
+
             return View();
         }
 
         private async Task<string> UploadImage(string destination, IFormFile file)
         {
-            string path = "products/";
+            //string path = "products/";
 
 
             destination += Guid.NewGuid().ToString() + "_" + file.FileName;
