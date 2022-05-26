@@ -38,30 +38,8 @@ namespace Generic_POS_System.Controllers
         public IActionResult Main()
         {
             Title = "Admin";
-
-            //var user = new List<AppUser>();.
             var user = _userManager.Users;
-            /*var allUsers = _context.Users.ToList();
-            if (allUsers?.Any() == true)
-            {
-                foreach (var users in allUsers)
-                {
-                    user.Add(new AppUser()
-                    {
-                        FirstName = users.FirstName,
-                        LastName = users.LastName,
-                        Dob = users.Dob,
-                        Email = users.Email,
-                        JoinDate = users.JoinDate,
-                        PhoneNumber = users.PhoneNumber,
-                        UserName = users.UserName
-                        
-
-                    });
-                }
-
-            }*/
-
+            
             return View(user);
         }
 
@@ -70,13 +48,6 @@ namespace Generic_POS_System.Controllers
         public IActionResult AddUser()
         {
             Title = "Add User";
-
-            /*var role = new SignUpUserModel
-            {
-                UserRole = GetAllRoles()
-            };
-
-            return View(role);*/
             return View();
         }
 
@@ -117,13 +88,7 @@ namespace Generic_POS_System.Controllers
             if (id == null)
                 return BadRequest();
 
-
-            //var userId = _userManager.Users.Select(x => x.Id).Where(x => x.Contains(id));
-
-            
             var user = await GetUserById(id);
-
-            //var userRole = await _userManager.
 
             var model = new EditUserModel()
             {
@@ -133,7 +98,7 @@ namespace Generic_POS_System.Controllers
                 Dob = user.Dob,
                 PhoneNumber = user.PhoneNumber,
                 Email = user.Email
-                //UserRole = GetAllRoles();
+
             };
 
             return View(model);
@@ -200,52 +165,6 @@ namespace Generic_POS_System.Controllers
 
             }
         }
-
-        /*[HttpGet]
-        public async Task<IActionResult> EditUserRole(string id)
-        {
-            Title = "Edit User Role";
-
-            if (id == null)
-                return BadRequest();
-
-
-            //var userId = _userManager.Users.Select(x => x.Id).Where(x => x.Contains(id));
-
-            ViewBag.userId = id;
-
-            var user = await GetUserById(id);
-
-            if (user == null)
-            {
-                return RedirectToAction("AccessDenied", "Account");
-            }
-
-            var model = new List<RolesModel>();
-            foreach (var r in _roleManager.Roles)
-            {
-                var userRole = new RolesModel
-                {
-                    Id = r.Id,
-                    Name = r.Name
-                };
-
-                
-                var userIn = await _userManager.IsInRoleAsync(user, r.Name);
-                if (userIn)
-                {
-                    userRole.IsSelected = true;
-                }
-                else
-                {
-                    userRole.IsSelected = false;
-                }
-
-                model.Add(userRole);
-            }
-
-            return View(model);
-        }*/
 
             
 

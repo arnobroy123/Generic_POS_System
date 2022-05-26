@@ -1,0 +1,106 @@
+﻿@model Generic_POS_System.ViewModels.ShoppingCartViewModel
+
+@{
+    ViewData["Title"] = "Index";
+
+
+}
+
+
+@*<script src="~/jquery/jquery.min.js" type="text/javascript"></script>*@
+
+@if (@TempData["msg"] != null) {
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>@TempData["msg"]</strong> You should check in on some of those fields below.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@*<h1 id="x">@TempData["msg"] <button onclick="hideAlert()">X</button> </h1>*@
+}
+
+
+@section scripts{
+
+    <script type="text/javascript">
+        function hideAlert() {
+            document.getElementById("x").innerHTML = "";
+        }
+    </script>
+}                    
+                    @*$.post("/ShoppingCart/RemoveFromCart", { "id": recordToDelete },
+                        function (data) {
+                            // Successful requests get here
+                            // Update the page elements
+                            if (data.ItemCount == 0) {
+                                $('#row-' + data.DeleteId).fadeOut('slow');
+                            } else {
+                                $('#item-count-' + data.DeleteId).text(data.ItemCount);
+                            }
+                            $('#cart-total').text(data.CartTotal);
+                            $('#update-message').text(data.Message);
+                            $('#cart-status').text('Cart (' + data.CartCount + ')');
+                        });*@
+ 
+
+<div class="container">
+    <h3>
+        <em>Review</em> your cart:
+    </h3>
+    <a asp-action="AddressAndPayment" asp-controller="Checkout" class="button">
+      Checkout  
+    </a>
+    <div id="update-message">
+       
+    </div>
+    <table class="table table-striped">
+        <tr>
+            <th>
+                Product Name
+            </th>
+            <th>
+                Price (each)
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model.CartItems)
+        {
+            <tr id="row-@item.RecordId">
+                <td>
+                
+                    @Html.ActionLink(item.productName, "GetProductById", "Product", new { id = item.productId }, null);
+
+                    @*<a>@item.Products.productName.Where(item.productId == item.Products.productId).ToString()</a>*@
+                </td>
+                <td>
+                    @item.unitPrice;
+                </td>
+                <td id="item-count-@item.RecordId">
+                    @item.Count
+                </td>
+                <td>
+                    @*<button class="RemoveLink" data-id="@item.RecordId">
+                        Remove
+                        from cart
+                    </button>*@
+                    @Html.ActionLink("Remove from cart", "RemoveFromCart", "ShoppingCart", new { id = item.RecordId }, null);
+                </td>
+            </tr>
+        }
+        <tr>
+            <td>
+                Total
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td id="cart-total">
+                @Model.CartTotal
+            </td>
+        </tr>
+    </table>
+
+</div>
+

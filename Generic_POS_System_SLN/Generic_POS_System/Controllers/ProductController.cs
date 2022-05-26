@@ -46,7 +46,21 @@ namespace Generic_POS_System.Controllers
             Title = "Details";
             var data = await _productRepository.GetProductById(id);
 
+
             return View(data);
+
+        }
+
+        
+
+        [Route("prod-categories/{id}")]
+        public async Task<ViewResult> GetProductByCategoryId(int id)
+        {
+            Title = "Details";
+            
+            ViewBag.ProdByCatId = await _productRepository.GetProductByCategoryId(id);
+
+            return View();
 
         }
 
@@ -55,7 +69,7 @@ namespace Generic_POS_System.Controllers
             return $"Product with name = {prodName} & Type = {prodType}";
         }
 
-        [Authorize(Roles = "Admin, Salesman ")]
+        [Authorize(Roles = "Admin, Salesman")]
         public ViewResult AddNewProduct(bool value = false)
         {
             Title = "Add Product";
@@ -96,6 +110,9 @@ namespace Generic_POS_System.Controllers
 
                 }
 
+                
+
+
                 int id = await _productRepository.AddNewProduct(productModel);
 
                 if (id > 0)
@@ -122,5 +139,7 @@ namespace Generic_POS_System.Controllers
 
             return "/" + destination;
         }
+
+
     }
 }

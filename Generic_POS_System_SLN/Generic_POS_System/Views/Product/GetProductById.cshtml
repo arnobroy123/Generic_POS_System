@@ -41,8 +41,35 @@
         float:left;
     }*@
 </style>
+@section scripts{
+
+    <script type="text/javascript">
+        $(function () {
+            // Document.ready -> link up remove event handler
+            $("#addCart").click(function () {
+                $.ajax({
+                    url: "/ShoppingCart/AddToCart/" + @Model.productId,
+                    method: "POST",
+                    data: { quantity: 1 },
+                    success: function (data) {
+                        localStorage.setItem("cartId", data);
+                        alert("Added to cart.");
+                    },
+                    error: function (err) {
+                        console.error(err);
+                    }
+
+                });
+            });
+        });
+    </script>
+}
 
 <div class="carContainer">
+    <span class="bg-seccess">
+        <h1>@TempData["Message"]</h1>
+    </span>
+
     <h3 class="display-4">Product Detail</h3>
     <div class="row">
         <div class="col-sm-12 col-md-6 col-lg-3 py-2">
@@ -76,8 +103,8 @@
             <hr />
             <div class="col-md-12">
 
-               
-                @if(Model.productDiscount != 0)
+
+                @if (Model.productDiscount != 0)
                 {
                     <div class="badge bg-danger text-wrap text-center fs-5 fw-bolder" style="width: auto; height: auto;">
                         ৳@Model.productDiscount
@@ -95,20 +122,24 @@
                     <label>Quantity:</label>
                 </div>
             </div>
+
+
             <div class="row py-2">
                 <div class="col-md-12">
-                    <button class="btn btn-outline-danger btn-sm" onclick="decrement()"><i class="fa-solid fa-minus"></i></button>
+                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="decrement()"><i class="fa-solid fa-minus"></i></button>
                     <input class="text-center" type="number" id="quantity" name="quantity" min="1" max="5" />
-                    <button class="btn btn-outline-success btn-sm" onclick="increment()"><i class="fa-solid fa-plus"></i></button>
+                    <button type="button" class="btn btn-outline-success btn-sm" onclick="increment()"><i class="fa-solid fa-plus"></i></button>
 
                 </div>
 
             </div>
             <div class="row py-3">
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    <button id="addCart" class="btn btn-primary">Add to Cart</button>
                 </div>
             </div>
+
+
             <hr />
 
             <ul class="list-group">

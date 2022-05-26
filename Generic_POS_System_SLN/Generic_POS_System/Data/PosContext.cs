@@ -22,5 +22,11 @@ namespace Generic_POS_System.Data
         public DbSet<ProductArcade> ProductArcade { get; set; }
 
         public DbSet<Category> Category { get; set; }
+
+        public DbSet<OrderDetails> OrderDetails { get; set; }
+        public DbSet<Orders> Orders { get; set; }
+        public DbSet<Cart> Cart  { get; set; }
+
+
     }
 }

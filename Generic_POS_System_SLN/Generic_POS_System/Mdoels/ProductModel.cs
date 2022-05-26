@@ -46,6 +46,12 @@ namespace Generic_POS_System.Mdoels
 
         public List <ArcadeModel> Arcade { get; set; }
 
+        [Display(Name = "Category Name")]
+        [Required]
+        public string CategoryName { get; set; }
+
+        public int? catId { get; set; }
+
 
     }
 }

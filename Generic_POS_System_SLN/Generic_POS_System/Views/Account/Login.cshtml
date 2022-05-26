@@ -15,6 +15,15 @@
 
     <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
 </head>
+@section scripts{
+
+    <script type="text/javascript">
+            // Document.ready -> link up remove event handler
+        function login() {
+            localStorage.setItem("cartId", $('#email').val());
+        }
+    </script>
+}
 <body>
 
     <div class="container my-4">
@@ -26,21 +35,21 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Email" class="control-label"></label>
-                        <input asp-for="Email" class="form-control" />
+                        <input id="email" asp-for="Email" class="form-control" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Password" class="control-label"></label>
-                        <input asp-for="Password" class="form-control" />
+                        <input id="password" asp-for="Password" class="form-control" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     <div class="form-group form-check">
                         <label class="form-check-label">
-                            <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
+                            <input id="rememberMe" class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
                         </label>
                     </div>
                     <div class="form-group my-3">
-                        <input type="submit" value="Login" class="btn btn-primary" />
+                        <button value="Login" class="btn btn-primary" onclick="login()">Login</button>
                     </div>
                 </form>
             </div>

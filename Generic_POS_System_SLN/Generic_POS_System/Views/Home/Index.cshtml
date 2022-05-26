@@ -1,7 +1,9 @@
-﻿@*@{
-    ViewData["Title"] = "Index";
-}*@
-        
+﻿@{ 
+    var discountedProduct = ViewBag.DiscountProduct;
+    var categorizedProduct = ViewBag.CategoryProduct;
+}
+
+
 
 <style>
     #colimage {
@@ -14,177 +16,155 @@
         background-position: center;
     }
 
-    #text{
-        width:100%;
-        height:100%;
-        color:white;
-        display:flex;
-        justify-content:center;
-        flex-direction:column;
-        align-items:center;
+    #text {
+        width: 100%;
+        height: 100%;
+        color: white;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
         background-color: rgba(0,0,0,0.5);
+    }
+    @*#cardImg img {
+        width: 100%;
+        height: 15vw;
+        object-fit: cover;
+    }*@
+    .card-img-top {
+        width: 100%;
+        height: 18vh;
+        object-fit: contain;
+
     }
 </style>
 
 
-            
-    
 
 
-        <div class="row">
-            <div class="col">
-                <div id="colimage">
-                    <h1 id="text" class="display-1 fw-bold">Welcome to POS</h1>
-                </div>
-            </div>
+
+
+<div class="row">
+    <div class="col">
+        <div id="colimage">
+            <h1 id="text" class="display-1 fw-bold">Welcome to POS</h1>
         </div>
-    <div class="container">
-        
-            @*<div id="carouselExampleFade" class="col-12 carousel slide carousel-fade" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="https://www.amd.com/system/files/76955-ryzen5-vega-1920x400.jpg" class="d-block w-100"
-                             alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="http://www.teledynedefenseelectronics.com/energetics/Energetics_Carousel/Dual-ESAD-2-1920x400-black.jpg"
-                             class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://jlrorwxhqjrilj5q.ldycdn.com/cloud/llBprKkmljSRlioplmpoip/crumbsDOWNLOAD.jpg"
-                             class="d-block w-100" alt="...">
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>*@
-        
+    </div>
+</div>
 
 
 
-        <div class="row my-2 mb-4 row-cols-1 row-cols-md-2 row-cols-lg-4 g-3 g-md-2 g-lg-3">
+
+
+<div class="container">
+    <hr />
+    <h3 class="display-4 text-center fw-bold">Product Category</h3>
+    <hr />
+    <div class="row mt-3 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-2">
+        @foreach (var item in categorizedProduct)
+        {
             <div class="col">
-                <div class="card mb-4 justify-content-center align-items-left p-3 shadow-sm" style="width: 18rem;">
-                    <img src="https://images.unsplash.com/photo-1619597455322-4fbbd820250a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGRlc2t0b3AlMjBjb21wdXRlcnxlbnwwfHwwfHw%3D&w=1000&q=80"
-                         class="card-img-top" alt="...">
+                <div class="container card mb-4 justify-content-center align-items-left p-2 shadow-sm" style="width: 18rem;">
+                    <a asp-action="GetProductByCategoryId" asp-controller="Product" asp-route-id="@item.catId">
+                        <img src="@(String.IsNullOrEmpty(item.coverUrl) ? "/images/dummy-image.jpg" : item.coverUrl )" class="card-img-top" alt="...">
+                    </a>
+
+                         
                     <div class="card-body">
-                        <h5 class="card-title">Computer Accessories</h5>
+                        <h5 class="card-title">@item.categroyName</h5>
                         <a href="#" class="btn btn-primary">See More</a>
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card mb-4 justify-content-center align-items-left p-3 shadow-sm" style="width: 18rem;">
-                    <img src="https://previews.123rf.com/images/belchonock/belchonock1906/belchonock190608269/124990305-different-luxury-makeup-products-on-white-background-top-view.jpg"
-                         class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Beauty & Healthcare</h5>
-                        <a href="#" class="btn btn-primary">See more</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card mb-4 justify-content-center align-items-left p-3 shadow-sm" style="width: 18rem;">
-                    <img src="https://3u8dbs16f2emlqxkbc8tbvgf-wpengine.netdna-ssl.com/wp-content/uploads/2019/12/nrd-D6Tu_L3chLE-unsplash-scaled.jpg"
-                         class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Buy Groceries</h5>
+        }
+    </div>
+    <hr />
 
-                        <a href="#" class="btn btn-primary">Shop Now</a>
-                    </div>
+
+
+    @*----------------------------------------------------------------       CAROUSEL      ---------------------------------------------------------------------*@
+
+
+
+
+
+    <div class="container row justify-content-center align-items-center my-2 mb-4">
+        <div id="carouselExampleFade" class="col carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://www.sleekmakeup.com/sites/g/files/xpfdlm111/files/Desktop_1920x400.png"
+                         class="d-flex w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://bethanyemc.ca/wp-content/uploads/Childrens-Header.jpg" class="d-block w-100"
+                         alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://www.ucc-bd.com/pub/media/magiccart/magicslider/c/7/c7b32e35_vk-com-header1590x400.jpg"
+                         class="d-block w-100" alt="...">
                 </div>
             </div>
-            <div class="col">
-                <div class="card mb-4 justify-content-center align-items-left p-3 shadow-sm" style="width: 18rem;">
-                    <img src="https://media.istockphoto.com/photos/collection-of-trendy-womens-garments-on-rack-indoors-closeup-and-for-picture-id1321448269?b=1&k=20&m=1321448269&s=170667a&w=0&h=7R8Q7IBiMpY4iyuq3E50yCuEROdSo58wDONw4eOX8EQ="
-                         class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Fashion & Dresses</h5>
-                        <a href="#" class="btn btn-primary">Shop Now</a>
-                    </div>
-                </div>
-            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-        
-
-
-        <div class="row my-2 mb-4">
-            <div id="carouselExampleFade" class="col carousel slide carousel-fade" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="https://www.sleekmakeup.com/sites/g/files/xpfdlm111/files/Desktop_1920x400.png"
-                             class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://bethanyemc.ca/wp-content/uploads/Childrens-Header.jpg" class="d-block w-100"
-                             alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://www.ucc-bd.com/pub/media/magiccart/magicslider/c/7/c7b32e35_vk-com-header1590x400.jpg"
-                             class="d-block w-100" alt="...">
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-        </div>
-
-
-        <div class="row mb-4 row-cols-1 row-cols-md-2 row-cols-lg-4 g-2 g-lg-3">
-            <div class="col">
-                <div class="card mb-4 justify-content-center align-items-left p-3 shadow-sm" style="width: 18rem;">
-                    <img src="https://images.unsplash.com/photo-1619597455322-4fbbd820250a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGRlc2t0b3AlMjBjb21wdXRlcnxlbnwwfHwwfHw%3D&w=1000&q=80"
-                         class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Computer Accessories</h5>
-                        <a href="#" class="btn btn-primary">See More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card mb-4 justify-content-center align-items-left p-3 shadow-sm" style="width: 18rem;">
-                    <img src="https://previews.123rf.com/images/belchonock/belchonock1906/belchonock190608269/124990305-different-luxury-makeup-products-on-white-background-top-view.jpg"
-                         class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Beauty & Healthcare</h5>
-                        <a href="#" class="btn btn-primary">See more</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card mb-4 justify-content-center align-items-left p-3 shadow-sm" style="width: 18rem;">
-                    <img src="https://3u8dbs16f2emlqxkbc8tbvgf-wpengine.netdna-ssl.com/wp-content/uploads/2019/12/nrd-D6Tu_L3chLE-unsplash-scaled.jpg"
-                         class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Buy Groceries</h5>
-
-                        <a href="#" class="btn btn-primary">Shop Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card mb-4 justify-content-center align-items-left p-3 shadow-sm" style="width: 18rem;">
-                    <img src="https://media.istockphoto.com/photos/collection-of-trendy-womens-garments-on-rack-indoors-closeup-and-for-picture-id1321448269?b=1&k=20&m=1321448269&s=170667a&w=0&h=7R8Q7IBiMpY4iyuq3E50yCuEROdSo58wDONw4eOX8EQ="
-                         class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Fashion & Dresses</h5>
-                        <a href="#" class="btn btn-primary">Shop Now</a>
-                    </div>
-                </div>
-            </div>
-        <div/>
     </div>
 
-                                                        
+
+
+
+
+@*----------------------------------------------------------------       PRDOUCTS BY DISCOUNT       ---------------------------------------------------------------------*@
+
+
+
+
+
+
+
+    
+
+<hr />
+<h3 class="display-3 text-center fw-bold">🔥Hot Right Now🔥</h3>
+    <hr />
+    <div class="row mt-3 mb-4 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-5">
+        @foreach (var item in ((IEnumerable<dynamic>)discountedProduct).Take(9))
+        {
+            <div class="col">
+                <div class="container card mb-5 justify-content-center align-items-left p-2 shadow-sm" style="width: 18rem;">
+                    <img src="@(String.IsNullOrEmpty(item.coverPhotoUrl) ? "/images/dummy-image.jpg" : item.coverPhotoUrl)"
+                         class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <a asp-controller="Product" asp-action="GetProductById" asp-route-id="@item.productId" style="text-decoration:none; color:black"> 
+                        <h5 class="card-title">@item.productName</h5> </a>
+                        <p class="card-text">Quantity: @item.totalProducts</p>
+                        @if (item.productDiscount != 0)
+                        {
+                            <div class="conatiner">
+                                <div class="badge bg-danger text-wrap text-center fs-5 fw-bolder" style="width: auto; height: auto;">
+                                    ৳ @item.productDiscount
+                                </div>
+                                <p class="card-text text-decoration-line-through fs-6">৳@item.unitPrice</p>
+                            </div>
+
+                        }
+                        else
+                        {
+                            <p class="card-text fs-1">৳@item.unitPrice</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+
+
+
+
+</div>

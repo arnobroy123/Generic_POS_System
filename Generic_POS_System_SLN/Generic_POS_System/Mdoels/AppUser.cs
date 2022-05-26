@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Generic_POS_System.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace Generic_POS_System.Mdoels
 {
     public class AppUser : IdentityUser
     {
+        
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -20,5 +22,7 @@ namespace Generic_POS_System.Mdoels
 
         [NotMapped]
         public SelectList Roles { get; set; }
+
+        public ICollection<Orders> MyProperty { get; set; }
     }
 }

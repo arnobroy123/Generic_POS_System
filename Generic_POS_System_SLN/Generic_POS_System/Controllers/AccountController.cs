@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Generic_POS_System.Helper;
 using Generic_POS_System.Mdoels;
 using Generic_POS_System.Repository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,15 +16,17 @@ namespace Generic_POS_System.Controllers
         private UserManager<AppUser> _userManager;
         private IAccountRepository _accountRepository;
         private readonly UserHelper _userHelper;
+        private readonly IHttpContextAccessor _httpContext;
 
         [ViewData]
         public string Title { get; set; }
 
-        public AccountController(IAccountRepository accountRepository, UserManager<AppUser> userManager, UserHelper userHelper)
+        public AccountController(IAccountRepository accountRepository, UserManager<AppUser> userManager, UserHelper userHelper, IHttpContextAccessor httpContext)
         {
             _userManager = userManager;
             _accountRepository = accountRepository;
             _userHelper = userHelper;
+            _httpContext = httpContext;
         }
 
         [Route("signup")]
@@ -79,27 +82,41 @@ namespace Generic_POS_System.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel loginModel, string returnUrl)
         {
+            _httpContext.HttpContext.Session.Clear();
+
+
+
+            if (returnUrl.Contains("IndexWithCartId"))
+            {
+                returnUrl = null;
+            }
+
             if (ModelState.IsValid)
             {
                 var result = await _accountRepository.PasswordSignInAsync(loginModel);
 
                 var user = await _userManager.FindByNameAsync(loginModel.Email);
 
-                var role = await _userManager.IsInRoleAsync(user, "Admin");
+                var roleAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+                var roleSalesman = await _userManager.IsInRoleAsync(user, "Salesman");
 
+                /*var uRole = _accountRepository.GetRolesUserAsync().Result;
+
+                var mainRole = uRole.Select(x => x.Name);*/
+                
 
 
                 if (result.Succeeded)
                 {
-                    if (!string.IsNullOrEmpty(returnUrl) && !role)
+                    if (!string.IsNullOrEmpty(returnUrl) && !roleAdmin && !roleSalesman)
                     {
                         return LocalRedirect(returnUrl);
                     }
-                    else if(role)
+                    else if(roleAdmin)
                     {
                         return RedirectToAction("Main", "Admin");
                     }
-                   return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home");
                 }
 
                 ModelState.AddModelError("", "Invalid Credentials");
@@ -110,6 +127,7 @@ namespace Generic_POS_System.Controllers
         [Route("logout")]
         public async Task<IActionResult> Logout()
         {
+            _httpContext.HttpContext.Session.Clear();
             await _accountRepository.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }

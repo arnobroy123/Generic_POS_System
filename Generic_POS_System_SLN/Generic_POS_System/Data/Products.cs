@@ -16,6 +16,8 @@ namespace Generic_POS_System.Data
             [Column(TypeName = "nvarchar(100)")]
             public string productName { get; set; }
 
+            //public int catId { get; set; }
+
             [Column(TypeName = "nvarchar(100)")]
             public string productType { get; set; }
 
@@ -29,9 +31,14 @@ namespace Generic_POS_System.Data
             [Column(TypeName = "decimal(7,2)")]
             public decimal? productDiscount { get; set; }
 
+            [ForeignKey("Category")]
+            public int? catId { get; set; }
+
             public Category Category { get; set; }
 
             public ICollection<ProductArcade> productArcade { get; set; }
+
+            public ICollection<OrderDetails> OrderDetails { get; set; }
 
     }
 }

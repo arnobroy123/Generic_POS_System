@@ -1,4 +1,5 @@
-﻿using Generic_POS_System.Mdoels;
+﻿using Generic_POS_System.Data;
+using Generic_POS_System.Mdoels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -12,12 +13,15 @@ namespace Generic_POS_System.Repository
     {
         private UserManager<AppUser> _userManager;
         private SignInManager<AppUser> _logInManager;
+        private PosContext _context;
+
         //private RoleManager<IdentityUser> _roleManager;
 
-        public AccountRepository(UserManager<AppUser> userManager, SignInManager<AppUser> logInManager) /*RoleManager<IdentityUser> roleManager*/
+        public AccountRepository(UserManager<AppUser> userManager, SignInManager<AppUser> logInManager, PosContext context) 
         {
             _userManager = userManager;
             _logInManager = logInManager;
+            _context = context;
             //_roleManager = roleManager;
         }
 
@@ -88,5 +92,27 @@ namespace Generic_POS_System.Repository
         {
             await _logInManager.SignOutAsync();
         }
+
+        /*public async Task<List<RolesModel>> GetRolesUserAsync()
+        {
+            var user = _context.Users.ToList();
+            var role = _context.Roles.ToList();
+            var userRole = _context.UserRoles.ToList();
+
+            var roleofUser = from u in user
+                             join ur in userRole
+                             on u.Id equals ur.UserId
+                             join r in role
+                             on ur.RoleId equals r.Id
+                             select new RolesModel
+                             {
+                                 Id = r.Id,
+                                 Name = r.Name
+                             };
+
+            return await Task.FromResult(roleofUser.ToList());
+
+
+        }*/
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Generic_POS_System.Mdoels;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Generic_POS_System.Repository
@@ -13,5 +14,7 @@ namespace Generic_POS_System.Repository
         Task<IdentityResult> AddUserAsync(SignUpUserModel userModel2);
 
         Task SignOutAsync();
+
+        /*Task<List<RolesModel>> GetRolesUserAsync();*/
     }
 }

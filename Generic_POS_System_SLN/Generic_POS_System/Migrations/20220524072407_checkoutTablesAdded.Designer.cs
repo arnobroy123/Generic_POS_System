@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Generic_POS_System.Migrations
 {
     [DbContext(typeof(PosContext))]
-    [Migration("20220521233836_added-many-to-many")]
-    partial class addedmanytomany
+    [Migration("20220524072407_checkoutTablesAdded")]
+    partial class checkoutTablesAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,60 @@ namespace Generic_POS_System.Migrations
                     b.HasKey("catId");
 
                     b.ToTable("Category");
+                });
+
+            modelBuilder.Entity("Generic_POS_System.Data.OrderDetails", b =>
+                {
+                    b.Property<int>("ordDetailsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(7,2)");
+
+                    b.Property<decimal>("DiscountedTotal")
+                        .HasColumnType("decimal(7,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(7,2)");
+
+                    b.Property<int>("orderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("productId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ordDetailsId");
+
+                    b.HasIndex("orderId");
+
+                    b.HasIndex("productId");
+
+                    b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("Generic_POS_System.Data.Orders", b =>
+                {
+                    b.Property<int>("orderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("genDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("userId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("orderId");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Generic_POS_System.Data.ProductArcade", b =>
@@ -300,6 +354,28 @@ namespace Generic_POS_System.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Generic_POS_System.Data.OrderDetails", b =>
+                {
+                    b.HasOne("Generic_POS_System.Data.Orders", "Orders")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("orderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Generic_POS_System.Data.Products", "Products")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("productId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Generic_POS_System.Data.Orders", b =>
+                {
+                    b.HasOne("Generic_POS_System.Mdoels.AppUser", "AppUser")
+                        .WithMany("MyProperty")
+                        .HasForeignKey("userId");
                 });
 
             modelBuilder.Entity("Generic_POS_System.Data.ProductArcade", b =>

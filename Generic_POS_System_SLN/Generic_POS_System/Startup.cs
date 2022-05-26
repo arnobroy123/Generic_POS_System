@@ -34,6 +34,12 @@ namespace Generic_POS_System
             services.AddDbContext<PosContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("dbConn")));
             services.AddControllersWithViews();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
             services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<PosContext>();
@@ -59,7 +65,11 @@ namespace Generic_POS_System
             services.AddRazorPages().AddRazorRuntimeCompilation();
 #endif      
             services.AddScoped<ProductRepository, ProductRepository>();
+            services.AddScoped<ShoppingCartRepository, ShoppingCartRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddHttpContextAccessor();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 
             services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, AppUserClaimsPrincipalFactory>();
             services.AddScoped<UserHelper, UserHelper>();
@@ -76,6 +86,8 @@ namespace Generic_POS_System
                 }
 
                 app.UseStaticFiles();
+
+                app.UseSession();
 
                 app.UseRouting();
 

@@ -16,8 +16,10 @@ namespace Generic_POS_System.Helper
             _httpContext = httpContext;
         }
 
+
+        
         public string GetUserId()
-        {
+        { 
             return _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 

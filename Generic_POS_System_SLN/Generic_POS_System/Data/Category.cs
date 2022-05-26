@@ -14,7 +14,7 @@ namespace Generic_POS_System.Data
 
         public string Name { get; set; }
 
-        [ForeignKey("catId")]
+        
         public ICollection <Products> Product { get; set; }
     }
 }
