@@ -44,6 +44,8 @@
                 <span asp-validation-for="productType" class="text-danger fw-light"></span>
             </div>
             <div class="col-12">
+                @*<label asp-for="Name" class="fw-bold"></label>
+        <select asp-for="Name" asp-items="Model.Category"></select>*@
                 <label asp-for="CategoryName" class="fw-bold"></label>
                 <input asp-for="CategoryName" class="form-control" />
                 <span asp-validation-for="CategoryName" class="text-danger fw-light"></span>

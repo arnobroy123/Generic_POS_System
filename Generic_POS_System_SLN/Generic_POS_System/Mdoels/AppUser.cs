@@ -23,6 +23,7 @@ namespace Generic_POS_System.Mdoels
         [NotMapped]
         public SelectList Roles { get; set; }
 
-        public ICollection<Orders> MyProperty { get; set; }
+
+
     }
 }

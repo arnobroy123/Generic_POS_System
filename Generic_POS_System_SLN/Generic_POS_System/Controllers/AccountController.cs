@@ -15,19 +15,23 @@ namespace Generic_POS_System.Controllers
     {
         private UserManager<AppUser> _userManager;
         private IAccountRepository _accountRepository;
+        private readonly ShoppingCartRepository _shopRepo;
         private readonly UserHelper _userHelper;
         private readonly IHttpContextAccessor _httpContext;
 
         [ViewData]
         public string Title { get; set; }
 
-        public AccountController(IAccountRepository accountRepository, UserManager<AppUser> userManager, UserHelper userHelper, IHttpContextAccessor httpContext)
+        public AccountController(IAccountRepository accountRepository, UserManager<AppUser> userManager, UserHelper userHelper, ShoppingCartRepository shoppingCartRepository, IHttpContextAccessor httpContext)
         {
             _userManager = userManager;
             _accountRepository = accountRepository;
+            _shopRepo = shoppingCartRepository;
             _userHelper = userHelper;
             _httpContext = httpContext;
         }
+
+
 
         [Route("signup")]
         public IActionResult SignUp()
@@ -38,7 +42,7 @@ namespace Generic_POS_System.Controllers
 
         [Route("signup")]
         [HttpPost]
-        public async Task<IActionResult> SignUp(SignUpUserModel userModel)
+        public async Task<IActionResult> SignUp(SignUpCustomerModel userModel)
         {
             if (ModelState.IsValid)
             {
@@ -53,13 +57,16 @@ namespace Generic_POS_System.Controllers
 
                     return View(userModel);
                 }
-
+                //MigrateShoppingCart(userModel.Email);
                 ModelState.Clear();
                 return RedirectToAction("login");
 
             }
             return View();
         }
+
+
+
 
         [Route("login")]
         public IActionResult Login()
@@ -75,21 +82,26 @@ namespace Generic_POS_System.Controllers
             }
 
             return RedirectToAction("Index", "Home");
-            
+
         }
 
         [Route("login")]
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel loginModel, string returnUrl)
         {
+            
             _httpContext.HttpContext.Session.Clear();
 
 
-
-            if (returnUrl.Contains("IndexWithCartId"))
+            if (returnUrl!= null)
             {
-                returnUrl = null;
+                if (returnUrl.Contains("IndexWithCartId"))
+                {
+                    returnUrl = null;
+                }
             }
+
+
 
             if (ModelState.IsValid)
             {
@@ -97,8 +109,8 @@ namespace Generic_POS_System.Controllers
 
                 var user = await _userManager.FindByNameAsync(loginModel.Email);
 
-                var roleAdmin = await _userManager.IsInRoleAsync(user, "Admin");
-                var roleSalesman = await _userManager.IsInRoleAsync(user, "Salesman");
+                
+
 
                 /*var uRole = _accountRepository.GetRolesUserAsync().Result;
 
@@ -106,8 +118,11 @@ namespace Generic_POS_System.Controllers
                 
 
 
-                if (result.Succeeded)
+                if (result.Succeeded && user != null)
                 {
+                    MigrateShoppingCart(loginModel.Email);
+                    var roleAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+                    var roleSalesman = await _userManager.IsInRoleAsync(user, "Salesman");
                     if (!string.IsNullOrEmpty(returnUrl) && !roleAdmin && !roleSalesman)
                     {
                         return LocalRedirect(returnUrl);
@@ -115,6 +130,10 @@ namespace Generic_POS_System.Controllers
                     else if(roleAdmin)
                     {
                         return RedirectToAction("Main", "Admin");
+                    }
+                    else if(roleSalesman)
+                    {
+                        return RedirectToAction("SalesmanIndex", "Salesman");
                     }
                     return RedirectToAction("Index", "Home");
                 }
@@ -131,6 +150,20 @@ namespace Generic_POS_System.Controllers
             await _accountRepository.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+       
+
+        private void MigrateShoppingCart(string UserName)
+        {
+            
+            _shopRepo.MigrateCart(UserName);
+            _httpContext.HttpContext.Session.SetString(ShoppingCartRepository.CartSessionKey, UserName);
+
+        }
+            
+            
+
+            
 
 
         public IActionResult AccessDenied()

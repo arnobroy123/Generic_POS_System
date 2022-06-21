@@ -14,15 +14,18 @@ namespace Generic_POS_System.Data
         [Key]
         public int orderId { get; set; }
 
-        [ForeignKey("AppUser")]
-        public string? userId { get; set; }
+
+        public string userId { get; set; }
 
         public DateTime genDate { get; set; }
 
-        public AppUser AppUser { get; set; }
+        [Column(TypeName = "decimal(7,2)")]
+        public decimal? OrderTotal { get; set; }
 
-        public ICollection<OrderDetails> OrderDetails { get; set; }
-
+        public IList<OrderDetails> OrderDetails { get; set; }
 
     }
+
+
+
 }

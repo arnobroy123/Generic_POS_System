@@ -67,17 +67,8 @@ namespace Generic_POS_System.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("Discount")
-                        .HasColumnType("decimal(7,2)");
-
-                    b.Property<decimal>("DiscountedTotal")
-                        .HasColumnType("decimal(7,2)");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(7,2)");
 
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(7,2)");
@@ -104,15 +95,16 @@ namespace Generic_POS_System.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<decimal?>("OrderTotal")
+                        .HasColumnType("decimal(7,2)");
+
                     b.Property<DateTime>("genDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("userId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("orderId");
-
-                    b.HasIndex("userId");
 
                     b.ToTable("Orders");
                 });
@@ -147,7 +139,7 @@ namespace Generic_POS_System.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("catId")
+                    b.Property<int>("catId")
                         .HasColumnType("int");
 
                     b.Property<string>("coverPhotoUrl")
@@ -407,13 +399,6 @@ namespace Generic_POS_System.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Generic_POS_System.Data.Orders", b =>
-                {
-                    b.HasOne("Generic_POS_System.Mdoels.AppUser", "AppUser")
-                        .WithMany("MyProperty")
-                        .HasForeignKey("userId");
-                });
-
             modelBuilder.Entity("Generic_POS_System.Data.ProductArcade", b =>
                 {
                     b.HasOne("Generic_POS_System.Data.Products", "Product")
@@ -427,7 +412,9 @@ namespace Generic_POS_System.Migrations
                 {
                     b.HasOne("Generic_POS_System.Data.Category", "Category")
                         .WithMany("Product")
-                        .HasForeignKey("catId");
+                        .HasForeignKey("catId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

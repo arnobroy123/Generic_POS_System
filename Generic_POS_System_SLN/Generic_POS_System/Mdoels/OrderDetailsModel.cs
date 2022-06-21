@@ -13,13 +13,17 @@ namespace Generic_POS_System.Mdoels
 
         public int productId { get; set; }
 
+        public int Quantity { get; set; }
+
+        public string prodName { get; set; }
+
         public decimal unitPrice { get; set; }
 
         public decimal prodDiscount { get; set; }
 
         public decimal Discount { get; set; }
 
-        public decimal Total { get; set; }
+        public decimal? Total { get; set; }
 
         public decimal DiscountedTotal { get; set; }
     }

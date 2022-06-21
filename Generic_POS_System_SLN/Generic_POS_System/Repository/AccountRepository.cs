@@ -25,7 +25,7 @@ namespace Generic_POS_System.Repository
             //_roleManager = roleManager;
         }
 
-        public async Task<IdentityResult> CreateUserAsync(SignUpUserModel userModel)
+        public async Task<IdentityResult> CreateUserAsync(SignUpCustomerModel userModel)
         {
             var user = new AppUser()
             {

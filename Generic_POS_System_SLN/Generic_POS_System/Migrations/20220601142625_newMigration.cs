@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Generic_POS_System.Migrations
 {
-    public partial class IdentityCoreAdded : Migration
+    public partial class newMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,11 +39,44 @@ namespace Generic_POS_System.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Dob = table.Column<DateTime>(nullable: true),
+                    JoinDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Category",
+                columns: table => new
+                {
+                    catId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Category", x => x.catId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    orderId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    userId = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    genDate = table.Column<DateTime>(nullable: false),
+                    OrderTotal = table.Column<decimal>(type: "decimal(7,2)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.orderId);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,6 +185,102 @@ namespace Generic_POS_System.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Product",
+                columns: table => new
+                {
+                    productId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    productName = table.Column<string>(type: "nvarchar(100)", nullable: true),
+                    productType = table.Column<string>(type: "nvarchar(100)", nullable: true),
+                    coverPhotoUrl = table.Column<string>(nullable: true),
+                    totalProducts = table.Column<int>(nullable: false),
+                    unitPrice = table.Column<decimal>(type: "decimal(7,2)", nullable: false),
+                    productDiscount = table.Column<decimal>(type: "decimal(7,2)", nullable: true),
+                    catId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Product", x => x.productId);
+                    table.ForeignKey(
+                        name: "FK_Product_Category_catId",
+                        column: x => x.catId,
+                        principalTable: "Category",
+                        principalColumn: "catId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cart",
+                columns: table => new
+                {
+                    RecordId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CartId = table.Column<string>(nullable: true),
+                    productId = table.Column<int>(nullable: false),
+                    Count = table.Column<int>(nullable: false),
+                    GenDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cart", x => x.RecordId);
+                    table.ForeignKey(
+                        name: "FK_Cart_Product_productId",
+                        column: x => x.productId,
+                        principalTable: "Product",
+                        principalColumn: "productId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderDetails",
+                columns: table => new
+                {
+                    ordDetailsId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    orderId = table.Column<int>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "decimal(7,2)", nullable: false),
+                    productId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderDetails", x => x.ordDetailsId);
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_Orders_orderId",
+                        column: x => x.orderId,
+                        principalTable: "Orders",
+                        principalColumn: "orderId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_Product_productId",
+                        column: x => x.productId,
+                        principalTable: "Product",
+                        principalColumn: "productId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductArcade",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    productId = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    URL = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductArcade", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductArcade_Product_productId",
+                        column: x => x.productId,
+                        principalTable: "Product",
+                        principalColumn: "productId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -190,6 +319,31 @@ namespace Generic_POS_System.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cart_productId",
+                table: "Cart",
+                column: "productId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderDetails_orderId",
+                table: "OrderDetails",
+                column: "orderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderDetails_productId",
+                table: "OrderDetails",
+                column: "productId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_catId",
+                table: "Product",
+                column: "catId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductArcade_productId",
+                table: "ProductArcade",
+                column: "productId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -210,10 +364,28 @@ namespace Generic_POS_System.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Cart");
+
+            migrationBuilder.DropTable(
+                name: "OrderDetails");
+
+            migrationBuilder.DropTable(
+                name: "ProductArcade");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Product");
+
+            migrationBuilder.DropTable(
+                name: "Category");
         }
     }
 }

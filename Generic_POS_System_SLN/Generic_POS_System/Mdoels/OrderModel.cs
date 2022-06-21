@@ -12,5 +12,7 @@ namespace Generic_POS_System.Mdoels
         public string? userId { get; set; }
 
         public DateTime genDate { get; set; }
+
+        
     }
 }

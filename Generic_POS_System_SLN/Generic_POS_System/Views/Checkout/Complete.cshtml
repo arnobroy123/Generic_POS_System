@@ -1,0 +1,63 @@
+﻿
+@{
+    var checkoutReciept = ViewBag.chekoutReciept;
+    var total = ViewBag.Total;
+    var orderId = ViewBag.OrderId;
+}
+
+<div class="container">
+
+    <div class="row my-4 text-danger text-center text-wrap">
+        <h1>Your order ID is: @orderId</h1>
+    </div>
+    <div class="row table-responsive">
+        <table class="table table-hover table-bordered table-warning">
+            <thead class="text-center">
+                <tr>
+                    <th scope="col">SL.</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Unit Price</th>
+                    <th scope="col">Single Total</th>
+
+                </tr>
+            </thead>
+            <tbody class="align-middle text-center">
+                @{ var count = 0;}
+                @foreach (var item in checkoutReciept)
+                {
+                    var singleTotal = (item.unitPrice * item.Quantity);
+                    count++;
+                    <tr>
+                        <th scope="row">@count</th>
+                        <td>@item.prodName</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.unitPrice</td>
+                        <td>@singleTotal</td>
+                    </tr>
+
+                }
+
+            </tbody>
+
+            <tfoot class="table-bordered">
+                <tr>
+                    
+                    <td colspan="4" class="fw-bold text-end">
+                        <h3 class="fw-bold">Total:</h3>
+                    </td>
+                    <td class="text-center">
+                        @total
+                    </td>
+                </tr>
+
+            </tfoot>
+        </table>
+
+    </div>
+    <div class="d-flex gap-2 justify-content-end">
+        <a asp-action="GetAllProducts" asp-controller="Product" class="btn btn-success">Shop More</a>
+        <button class="btn btn-danger" onclick="window.print()">Print Reciept</button>
+    </div>
+            
+</div>

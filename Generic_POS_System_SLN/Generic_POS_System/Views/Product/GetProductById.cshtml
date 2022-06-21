@@ -1,10 +1,17 @@
 ﻿@model ProductModel
+@inject Generic_POS_System.Helper.UserHelper _userHelper
+
+
+@{ 
+    var loggedIn = _userHelper.IsLoggedIn();
+}
 
 <style>
 
     .carContainer {
         padding: 0px 50px 0px 50px;
         margin-top:30px;
+        margin-bottom:9vh;
     }
 
     #quantity{
@@ -45,12 +52,16 @@
 
     <script type="text/javascript">
         $(function () {
+            
             // Document.ready -> link up remove event handler
             $("#addCart").click(function () {
+                //var qty = $(this).data("id");
+                var qty = document.getElementById('qty').value;
+
                 $.ajax({
-                    url: "/ShoppingCart/AddToCart/" + @Model.productId,
+                url: "/ShoppingCart/AddToCart/" + @Model.productId,
                     method: "POST",
-                    data: { quantity: 1 },
+                    data: { quantity: qty },
                     success: function (data) {
                         localStorage.setItem("cartId", data);
                         alert("Added to cart.");
@@ -63,6 +74,10 @@
             });
         });
     </script>
+    
+    
+    
+
 }
 
 <div class="carContainer">
@@ -126,16 +141,24 @@
 
             <div class="row py-2">
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="decrement()"><i class="fa-solid fa-minus"></i></button>
-                    <input class="text-center" type="number" id="quantity" name="quantity" min="1" max="5" />
-                    <button type="button" class="btn btn-outline-success btn-sm" onclick="increment()"><i class="fa-solid fa-plus"></i></button>
-
+                    <input class="text-center" id="qty" type="number" value="1" name="quantity" min="1" max="5" />
                 </div>
-
             </div>
+
+
+
+
             <div class="row py-3">
                 <div class="col-md-12">
-                    <button id="addCart" class="btn btn-primary">Add to Cart</button>
+                    @if (!loggedIn)
+                    {
+                        <a class="btn btn-primary" asp-action="login" asp-controller="Account" asp-route-returnUrl="@Context.Request.Path">Add To Cart</a>
+                    }
+                    else
+                    {
+                        <button id="addCart" class="btn btn-primary">Add to Cart</button>
+                    }
+
                 </div>
             </div>
 
@@ -143,9 +166,9 @@
             <hr />
 
             <ul class="list-group">
-                <li class="list-group-item fw-bold">Available: @Model.totalProducts</li>
-                <li class="list-group-item fw-bold">Type: @Model.productType</li>
-                <li class="list-group-item">A third item</li>
+                <li class="list-group-item list-group-item-success fw-bold">Available: @Model.totalProducts</li>
+                <li class="list-group-item list-group-item-success fw-bold">Type: @Model.productType</li>
+                
             </ul>
 
         </div>

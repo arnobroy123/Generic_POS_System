@@ -7,7 +7,7 @@ namespace Generic_POS_System.Repository
 {
     public interface IAccountRepository
     {
-        Task<IdentityResult> CreateUserAsync(SignUpUserModel userModel);
+        Task<IdentityResult> CreateUserAsync(SignUpCustomerModel userModel);
 
         Task<SignInResult> PasswordSignInAsync(LoginModel logInModel);
 

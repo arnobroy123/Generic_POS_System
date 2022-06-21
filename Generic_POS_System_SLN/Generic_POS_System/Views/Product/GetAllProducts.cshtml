@@ -8,17 +8,40 @@
     }
 </style>
 
-<div class="px-3 py-5 bg-light">
+<div class="container px-3 py-5">
     
     <div class="container-sm container-md container-lg">
-        <h3 class="display-3 text-wrap fw-bold">All Products <i class="fas fa-solid fa-cart-circle-check"></i></h3>
+        <h3 class="display-3 fw-bold">All Products</h3>
+        <Hr />
+        <div class="row d-flex text-end">
+            <form class="class="col" asp-action="GetAllProducts" method="get">
+                <div form-group">
+                    <label class="fw-bold" for="Search">Search</label>
+                    <input type="text" name="Search" value="@ViewData["Search"]" />
+                    <button type="submit" class="btn btn-dark" style="border-radius:5rem;"><i class="fas fa-solid fa-magnifying-glass"></i></button>
+                    @*<input type="submit" value="Search" class="btn btn-primary">*@
+                </div>
+            </form>
+        </div>
+
+
         <div class="row mt-3 mb-4 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-2">
-            @foreach (var product in Model)
+            @if (Model.Any() == true)
+            {
+                @foreach (var product in Model)
+                {
+                    <div class="col">
+                        <partial name="_allProductCard" model="@product"/>
+                    </div>
+                }
+            }
+            else
             {
                 <div class="col">
-                    <partial name="_allProductCard" model="@product"/>
+                    <h2 class="text-danger">Product Not Found ⛔</h2>
                 </div>
             }
+
         </div>
     </div>
 <div />

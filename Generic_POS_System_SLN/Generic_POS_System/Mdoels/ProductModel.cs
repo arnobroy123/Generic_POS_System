@@ -4,11 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
+using Generic_POS_System.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Generic_POS_System.Mdoels
 {
     public class ProductModel
     {
+        
+
         public int productId { get; set; }
 
         [Display(Name ="Product Name")]
@@ -46,12 +50,19 @@ namespace Generic_POS_System.Mdoels
 
         public List <ArcadeModel> Arcade { get; set; }
 
+        /*public Category Name { get; set; }
+
+        [Display(Name = "Category Name")]
+        [Required]
+        public IEnumerable<SelectListItem> Category { get; set; }*/
+
         [Display(Name = "Category Name")]
         [Required]
         public string CategoryName { get; set; }
 
-        public int? catId { get; set; }
+        [Display(Name ="Select Category")]
+        public int catId { get; set; }
 
-
+        
     }
 }

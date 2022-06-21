@@ -9,9 +9,11 @@ using System.Linq;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Generic_POS_System.Controllers
 {
+    [Authorize]
     public class ShoppingCartController : Controller
     {
         private readonly ShoppingCartRepository _shopRepo;
@@ -30,8 +32,10 @@ namespace Generic_POS_System.Controllers
         [Route("ShoppingCart/IndexWithCartId/{cartId}")]
         public ActionResult Index(string cartId)
         {
+            
             if (_httpContext.HttpContext.User.Identity.Name != cartId)
             {
+                
                 return LocalRedirect("/ShoppingCart/Index");
             }
 
@@ -39,10 +43,10 @@ namespace Generic_POS_System.Controllers
             {
                 _httpContext.HttpContext.Session.SetString("CartId", cartId);
             }
-            
+
+
 
             var cart = _shopRepo.GetCart();
-
 
             // Set up our ViewModel
             var viewModel = new ShoppingCartViewModel
@@ -89,20 +93,13 @@ namespace Generic_POS_System.Controllers
         // GET: /Store/AddToCart/5
         public ActionResult AddToCart(int id, int quantity)
         {
-            // Retrieve the album from the database
+            
             var addedProduct = _context.Product.Single(product => product.productId == id);
-            /*if (addedProduct != null)
-            {
-                var update = _context.Product.Where(x=> x.productId == id).ToList();
-                foreach (var item in update)
-                {
-                    item.totalProducts -= quantity;
-                }
+            
 
-            }*/
-
-            // Add it to the shopping cart
-            var cart = _shopRepo.GetCart();
+            
+            var cartId = _shopRepo.GetCart();
+            
 
             _shopRepo.AddToCart(addedProduct, quantity);
 
@@ -117,30 +114,11 @@ namespace Generic_POS_System.Controllers
             // Remove the item from the cart
             var cart = _shopRepo.GetCart();
 
-            // Get the name of the album to display confirmation
-            /*var cartItem = _context.Cart
-                .Where(item => item.RecordId == id).ToList();
-            var proItem = _context.Product.ToList();*/
-
-            //CartModel c = new CartModel();
-
-
-            /*var productName = (from c in cartItem
-                                 join p in proItem
-                                 on c.productId equals p.productId
-                                 select new CartModel
-                                 {
-                                     productName = p.productName
-                                 }).Single();
-            string prodName = productName.ToString();*/
+            
 
             var cartItem = _context.Cart.Single(item => item.RecordId == id);
             var productName = _context.Product.Where(p => p.productId == cartItem.productId).Select(p => p.productName).Single();
-            //string productName = null;
             
-
-            /*string productName = _context.Cart
-                .Single(item => item.RecordId == id).Products.productName;*/
 
             // Remove from cart
             int itemCount = _shopRepo.RemoveFromCart(id);
@@ -158,7 +136,7 @@ namespace Generic_POS_System.Controllers
 
             //var jResult = JsonConvert.SerializeObject(results);
 
-            TempData["msg"] = "Item removed";
+            TempData["msg"] = productName + " has been removed";
             return RedirectToAction("Index");
         }
         //

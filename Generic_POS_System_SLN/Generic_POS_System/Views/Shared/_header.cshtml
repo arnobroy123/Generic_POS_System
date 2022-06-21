@@ -18,9 +18,7 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Products</a>
-                    </li>
+
 
                     @if (User.IsInRole("Admin"))
                     {
@@ -31,7 +29,19 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Admin" asp-action="Main">Dashboard</a>
                         </li>
-                        
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Salesman" asp-action="SalesmanIndex">Product List</a>
+                        </li>
+
+                    }
+                    else if (User.IsInRole("Salesman"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Product" asp-action="AddNewProduct">Add Product</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Salesman" asp-action="SalesmanIndex">Product List</a>
+                        </li>
                     }
 
                     <li class="nav-item">

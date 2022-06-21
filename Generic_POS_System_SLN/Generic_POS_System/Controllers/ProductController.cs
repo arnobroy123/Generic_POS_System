@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Generic_POS_System.Data;
 using Generic_POS_System.Mdoels;
 using Generic_POS_System.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Generic_POS_System.Controllers
 {
@@ -20,25 +22,40 @@ namespace Generic_POS_System.Controllers
         //}
 
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly PosContext _context;
 
         [ViewData]
         public string Title { get; set; }
 
         private readonly ProductRepository _productRepository = null;
         public ProductController(ProductRepository productRepository,
-            IWebHostEnvironment webHostEnvironment)
+            IWebHostEnvironment webHostEnvironment, PosContext context)
         {
             _productRepository = productRepository;
             _webHostEnvironment = webHostEnvironment;
+            _context = context;
         }
 
-        public async Task<ViewResult> GetAllProducts()
+        public async Task<ViewResult> GetAllProducts(string Search)
         {
             Title = "All Products";
+            ViewData["Search"] = Search;
+            
             var data = await _productRepository.GetAllProducts();
+            if (!String.IsNullOrEmpty(Search))
+            {
+                var product = await _productRepository.SearchProducts(Search);
+                
+                
+                return View(product);
+                
+                
 
+            }
             return View(data);
         }
+
+        
 
         [Route("prod-details/{id}")]
         public async Task<ViewResult> GetProductById(int id)
@@ -51,20 +68,21 @@ namespace Generic_POS_System.Controllers
 
         }
 
-        
+
 
         [Route("prod-categories/{id}")]
         public async Task<ViewResult> GetProductByCategoryId(int id)
         {
             Title = "Details";
-            
+
             ViewBag.ProdByCatId = await _productRepository.GetProductByCategoryId(id);
+            ViewBag.CatName = _context.Category.Where(c => c.catId == id).Select(c => c.Name).Single();
 
             return View();
 
         }
 
-        public string SearchProduct(string prodName,  string prodType)
+        public string SearchProduct(string prodName, string prodType)
         {
             return $"Product with name = {prodName} & Type = {prodType}";
         }
@@ -73,6 +91,17 @@ namespace Generic_POS_System.Controllers
         public ViewResult AddNewProduct(bool value = false)
         {
             Title = "Add Product";
+
+            /*List<SelectListItem> category = _context.Category.Select(c =>
+                new SelectListItem()
+                {
+                    Value = c.Name,
+                    Text = c.Name
+                }).ToList();
+            ProductModel product = new ProductModel()
+            {
+                Category = category
+            };*/
 
             ViewBag.IsSuccess = value;
             return View();
@@ -85,6 +114,9 @@ namespace Generic_POS_System.Controllers
 
             if (ModelState.IsValid)
             {
+                
+
+
                 if (productModel.photoUrl != null)
                 {
                     string path = "products/";
@@ -138,7 +170,11 @@ namespace Generic_POS_System.Controllers
             await file.CopyToAsync(new FileStream(serverPath, FileMode.Create));
 
             return "/" + destination;
+            
+
         }
+
+        
 
 
     }

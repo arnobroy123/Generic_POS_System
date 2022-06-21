@@ -63,61 +63,49 @@ namespace Generic_POS_System.Repository
             if (cartItem == null)
             {
 
-                if (quantity != 0)
+                
+                cartItem = new Cart
                 {
-                    cartItem = new Cart
-                    {
-                        productId = products.productId,
-                        CartId = ShoppingCartId,
-                        Count = quantity,
-                        GenDate = DateTime.UtcNow.AddHours(6)
-                    };
-                }
-                else
-                {
-                    cartItem = new Cart
-                    {
-                        productId = products.productId,
-                        CartId = ShoppingCartId,
-                        Count = 1,
-                        GenDate = DateTime.UtcNow.AddHours(6)
-                    };
-                }
-
-                    
-                    
-                    
+                    productId = products.productId,
+                    CartId = ShoppingCartId,
+                    Count = quantity,
+                    GenDate = DateTime.UtcNow.AddHours(6)
+                };
+                
+                
+                
 
                 _context.Cart.Add(cartItem);
             }
             else
             {
-                if (quantity == 0)
-                {
-                    cartItem.Count++;
-                }
-                else
-                {
-                    cartItem.Count += quantity;
-                }
-
-            }
+                cartItem.Count += quantity;
                 
-
+            }
+                    
             _context.SaveChanges();
         }
+                
+                
+                
+
+                    
+                    
+
+                
+
 
         //Remove from cart
 
         public int RemoveFromCart(int id)
         {
-            var cartItem = _context.Cart.Single(
-                c => c.CartId.Equals(ShoppingCartId)
-                && c.RecordId.Equals(id));
 
             //var cartItem = _context.Cart.Where(c => c.CartId == ShoppingCartId && c.RecordId == id).Single();
 
 
+            var cartItem = _context.Cart.Single(
+                c => c.CartId.Equals(ShoppingCartId)
+                && c.RecordId.Equals(id));
 
             int itemCount = 0;
 
@@ -199,26 +187,33 @@ namespace Generic_POS_System.Repository
         public int CreateOrder(Orders order)
         {
             decimal orderTotal = 0;
-
-            var cartItems = _context.Cart.Where(cart => cart.CartId == ShoppingCartId).ToList(); ;
+            GetCart();
+            /*var cartItems = _context.Cart.Where(cart => cart.CartId == ShoppingCartId);*/
+            var cartItems = from c in _context.Cart
+                            from p in _context.Product.Where(p => p.productId == c.productId && c.CartId == ShoppingCartId)
+                            select new { c.productId, p.unitPrice, c.Count };
+            
             // Iterate over the items in the cart, 
             // adding the order details for each
             foreach (var item in cartItems)
             {
+                
                 var orderDetail = new OrderDetails
                 {
                     productId = item.productId,
                     orderId = order.orderId,
-                    UnitPrice = item.Products.unitPrice,
+                    UnitPrice = item.unitPrice,
                     Quantity = item.Count
                 };
                 // Set the order total of the shopping cart
-                orderTotal += (item.Count * item.Products.unitPrice);
+                orderTotal += (item.Count * item.unitPrice);
+
+
 
                 _context.OrderDetails.Add(orderDetail);
             }
-            /*// Set the order's total to the orderTotal count
-            order.Total = orderTotal;*/
+            // Set the order's total to the orderTotal count
+            order.OrderTotal = orderTotal;
 
             // Save the order
             _context.SaveChanges();
@@ -226,7 +221,7 @@ namespace Generic_POS_System.Repository
             EmptyCart();
             // Return the OrderId as the confirmation number
             return order.orderId;
-            
+
 
         }
         public string GetCartId()
@@ -259,8 +254,16 @@ namespace Generic_POS_System.Repository
         }
 
 
+        /*public string cartIdBeforeLogin(string cartId)
+        {
+            ShoppingCartId = cartId;
+            return ShoppingCartId;
+        }*/
+
         public void MigrateCart(string userName)
         {
+            
+            
             var shoppingCart = _context.Cart.Where(
                 c => c.CartId == ShoppingCartId);
 

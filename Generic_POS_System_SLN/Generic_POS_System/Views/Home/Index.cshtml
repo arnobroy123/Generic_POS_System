@@ -16,6 +16,28 @@
         background-position: center;
     }
 
+    #category {
+        background-image: url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80');
+        height: auto;
+        width: auto;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: scroll;
+        background-position: center;
+        
+    }
+    #hotNow { 
+        background-image: url('https://images.unsplash.com/photo-1573855619003-97b4799dcd8b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80'); 
+        height: auto; 
+        width: auto; 
+        background-repeat: no-repeat; 
+        background-size: cover; 
+        background-attachment: scroll; 
+        background-position: center;
+        background-position-y: top;
+
+    }
+
     #text {
         width: 100%;
         height: 100%;
@@ -26,6 +48,11 @@
         align-items: center;
         background-color: rgba(0,0,0,0.5);
     }
+    .style {
+        
+        background-color: rgba(0,0,0,0.5);
+    }
+    
     @*#cardImg img {
         width: 100%;
         height: 15vw;
@@ -56,11 +83,12 @@
 
 
 
-<div class="container">
+<div class="container mb-4">
     <hr />
     <h3 class="display-4 text-center fw-bold">Product Category</h3>
     <hr />
-    <div class="row mt-3 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-2">
+    <div id="category" class="row mt-3 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-2">
+        
         @foreach (var item in categorizedProduct)
         {
             <div class="col">
@@ -72,7 +100,6 @@
                          
                     <div class="card-body">
                         <h5 class="card-title">@item.categroyName</h5>
-                        <a href="#" class="btn btn-primary">See More</a>
                     </div>
                 </div>
             </div>
@@ -88,7 +115,7 @@
 
 
 
-    <div class="container row justify-content-center align-items-center my-2 mb-4">
+@*    <div class="container row justify-content-center align-items-center my-2 mb-4">
         <div id="carouselExampleFade" class="col carousel slide carousel-fade" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -113,7 +140,7 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-    </div>
+    </div>*@
 
 
 
@@ -129,16 +156,19 @@
 
     
 
-<hr />
-<h3 class="display-3 text-center fw-bold">🔥Hot Right Now🔥</h3>
     <hr />
-    <div class="row mt-3 mb-4 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-5">
-        @foreach (var item in ((IEnumerable<dynamic>)discountedProduct).Take(9))
+    <h3 class="display-3 text-center fw-bold">🔥Hot Right Now🔥</h3>
+    <hr />
+    
+    <div id="hotNow" class="row mt-3 mb-4 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-5">
+        
+        @foreach (var item in ((IEnumerable<dynamic>)discountedProduct).Take(12))
         {
             <div class="col">
+               
                 <div class="container card mb-5 justify-content-center align-items-left p-2 shadow-sm" style="width: 18rem;">
                     <img src="@(String.IsNullOrEmpty(item.coverPhotoUrl) ? "/images/dummy-image.jpg" : item.coverPhotoUrl)"
-                         class="card-img-top" alt="...">
+                            class="card-img-top" alt="...">
                     <div class="card-body">
                         <a asp-controller="Product" asp-action="GetProductById" asp-route-id="@item.productId" style="text-decoration:none; color:black"> 
                         <h5 class="card-title">@item.productName</h5> </a>
@@ -163,8 +193,9 @@
         }
     </div>
 
-
-
-
-
+    
 </div>
+
+
+
+

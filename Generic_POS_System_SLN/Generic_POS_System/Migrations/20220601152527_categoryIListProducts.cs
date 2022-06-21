@@ -2,7 +2,7 @@
 
 namespace Generic_POS_System.Migrations
 {
-    public partial class changedCart : Migration
+    public partial class categoryIListProducts : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

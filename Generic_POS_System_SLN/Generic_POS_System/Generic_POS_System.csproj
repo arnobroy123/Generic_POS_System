@@ -5,39 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20220503062341_Arnob.cs" />
-    <Compile Remove="Migrations\20220503062341_Arnob.Designer.cs" />
-    <Compile Remove="Migrations\20220503062421_DecimalFix.cs" />
-    <Compile Remove="Migrations\20220503062421_DecimalFix.Designer.cs" />
-    <Compile Remove="Migrations\20220503063702_AnnotationsAdded.cs" />
-    <Compile Remove="Migrations\20220503063702_AnnotationsAdded.Designer.cs" />
-    <Compile Remove="Migrations\20220521224718_one-to-many-added.cs" />
-    <Compile Remove="Migrations\20220521224718_one-to-many-added.Designer.cs" />
-    <Compile Remove="Migrations\20220521233501_added-many-to-many.cs" />
-    <Compile Remove="Migrations\20220521233501_added-many-to-many.Designer.cs" />
-    <Compile Remove="Migrations\20220521233531_added-many-to-many.cs" />
-    <Compile Remove="Migrations\20220521233531_added-many-to-many.Designer.cs" />
-    <Compile Remove="Migrations\20220522062501_added-manytomany.cs" />
-    <Compile Remove="Migrations\20220522062501_added-manytomany.Designer.cs" />
-    <Compile Remove="Migrations\20220522064340_added-manytomany.cs" />
-    <Compile Remove="Migrations\20220522064340_added-manytomany.Designer.cs" />
-    <Compile Remove="Migrations\20220522064356_added-manytomany.cs" />
-    <Compile Remove="Migrations\20220522064356_added-manytomany.Designer.cs" />
-    <Compile Remove="Migrations\20220524063830_fkadded.cs" />
-    <Compile Remove="Migrations\20220524063830_fkadded.Designer.cs" />
-    <Compile Remove="Migrations\20220524064453_addedCheckoutTables.cs" />
-    <Compile Remove="Migrations\20220524064453_addedCheckoutTables.Designer.cs" />
-    <Compile Remove="Migrations\20220524071208_fkAdded.cs" />
-    <Compile Remove="Migrations\20220524071208_fkAdded.Designer.cs" />
-    <Compile Remove="Migrations\20220524071652_checkoutTablesAdded.cs" />
-    <Compile Remove="Migrations\20220524071652_checkoutTablesAdded.Designer.cs" />
-    <Compile Remove="Migrations\20220524071839_checkoutTablesAdded.cs" />
-    <Compile Remove="Migrations\20220524071839_checkoutTablesAdded.Designer.cs" />
-    <Compile Remove="Migrations\20220525125249_added-null-cart.cs" />
-    <Compile Remove="Migrations\20220525125249_added-null-cart.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\products\arcade\" />
   </ItemGroup>

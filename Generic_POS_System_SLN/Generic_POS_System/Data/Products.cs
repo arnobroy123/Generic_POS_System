@@ -32,13 +32,13 @@ namespace Generic_POS_System.Data
             public decimal? productDiscount { get; set; }
 
             [ForeignKey("Category")]
-            public int? catId { get; set; }
+            public int catId { get; set; }
 
             public Category Category { get; set; }
 
             public ICollection<ProductArcade> productArcade { get; set; }
 
-            public ICollection<OrderDetails> OrderDetails { get; set; }
+            public IList<OrderDetails> OrderDetails { get; set; }
 
     }
 }

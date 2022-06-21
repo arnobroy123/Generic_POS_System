@@ -1,16 +1,19 @@
 ﻿@inject Microsoft.AspNetCore.Identity.SignInManager<AppUser> _logInManager
 
 <script>
+
+    
     function goToCart() {
-        
+
         if (localStorage.cartId) {
-            alert(localStorage.cartId);
+
+            //alert(localStorage.cartId);
             window.location.href = "/ShoppingCart/IndexWithCartId/" + localStorage.cartId;
         } else {
-            alert(localStorage.cartId);
+            //alert(localStorage.cartId);
             window.location.href = "/ShoppingCart/Index";
         }
-        
+
     }
 
     function logout() {
@@ -26,28 +29,28 @@
 
     if (string.IsNullOrEmpty(u))
     {
-<div class="btn-group">
-    <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        Hello, @u2
-    </button>
-    <ul class="dropdown-menu">
-        <li><a class="dropdown-item" onclick="logout()">Logout</a></li>
-    </ul>
-    <button  onclick="goToCart()">Go To Cart<i class="fa-regular fa-cart-circle-check"></i></button>
-</div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Hello, @u2
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" onclick="logout()">Logout</a></li>
+            </ul>
+            <button class="btn btn-outline-success mx-1" style="border-radius: 5px" onclick="goToCart()">Go To Cart <i class="fas fa-solid fa-cart-shopping"></i></button>
+        </div>
     }
     else
     {
-<div class="btn-group">
-    <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        Hello, @u
-    </button>
-    <ul class="dropdown-menu">
-        <li><a class="dropdown-item" onclick="logout()">Logout</a></li>
-    </ul>
-    <button  onclick="goToCart()">Go To Cart<i class="fa-regular fa-cart-circle-check"></i></button>
+        <div class="btn-group">
+            <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Hello, @u
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" onclick="logout()">Logout</a></li>
+            </ul>
+            <button class="btn btn-outline-success mx-1" style="border-radius: 5px" onclick="goToCart()">Go To Cart <i class="fas fa-solid fa-cart-shopping"></i></button>
     
-</div>
+        </div>
     }
 }
 else
@@ -58,7 +61,8 @@ else
     <a class="btn btn-outline-info mx-1" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.Path">
         LogIn
     </a>
-    <button onclick="goToCart()">Go To Cart<i class="fa-regular fa-cart-circle-check"></i></button>
+    
+    <button class="btn btn-outline-success mx-1" style="border-radius: 5px" onclick="goToCart()">Go To Cart <i class="fas fa-solid fa-cart-shopping"></i></button>
 
 }
 

@@ -1,14 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Generic_POS_System.Mdoels
 {
-    public class SignUpUserModel
+    public class SignUpCustomerModel
     {
         public string UserId { get; set; }
 
@@ -30,13 +28,13 @@ namespace Generic_POS_System.Mdoels
         public string PhoneNumber { get; set; }
 
 
-        [Required(ErrorMessage ="Please enter your Email")]
+        [Required(ErrorMessage = "Please enter your Email")]
         [Display(Name = "Email Address")]
-        [EmailAddress(ErrorMessage ="Please enter a valid email address")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Please enter your password")]
-        [Compare("ConfirmPassword", ErrorMessage ="Password does not match")]
+        [Compare("ConfirmPassword", ErrorMessage = "Password does not match")]
         [Display(Name = "Password")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
@@ -45,13 +43,5 @@ namespace Generic_POS_System.Mdoels
         [Display(Name = "Confirm Password")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
-
-
-        [Required(ErrorMessage = "Select User Role")]
-        [Display(Name = "User Role")]
-        public string Role { get; set; }
-
-
-
     }
 }

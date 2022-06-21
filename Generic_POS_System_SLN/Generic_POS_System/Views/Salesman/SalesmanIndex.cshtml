@@ -1,0 +1,106 @@
+﻿@{ 
+    var product = ViewBag.Products;
+}
+
+<style>
+    #anchor{
+        color:black;
+        text-decoration:none;
+        
+    }
+</style>
+
+<div class="container mb-5">
+    <div class="row mt-4 justify-content-center align-items-center text-center">
+        <div class="col">
+            <h1 class="display-3 fw-normal">Product List</h1>
+            <hr />
+        </div>
+    </div>
+
+    <div class="row mb-2 table-responsive table-bordered">
+        <div class="col">
+            <table class="table table-hover table-striped table-bordered table-secondary">
+
+                <thead class="align-middle text-center table-success">
+                    <tr>
+                        <th scope="col">
+                            <a id="anchor" asp-acion="SalesmanIndex" asp-route-sortOrder="@ViewBag.pIdSort">pId</a> 
+                        </th>
+                        
+                        
+                        <th scope="col">
+                            <a id="anchor" asp-acion="SalesmanIndex" asp-route-sortOrder="@ViewBag.NameSort">Product Name <i class="fas fa-sort"></i></a>
+                        </th>
+                        
+                        <th scope="col">Product Type</th>
+                        <th scope="col">
+                            <a id="anchor" asp-acion="SalesmanIndex" asp-route-sortOrder="@ViewBag.TotalProdSort">Total Products <i class="fas fa-sort"></i></a>  
+                        </th>
+                        
+                        <th scope="col">
+                            <a id="anchor" asp-acion="SalesmanIndex" asp-route-sortOrder="@ViewBag.uniPriceSort">Unit Price <i class="fas fa-sort"></i></a>
+                        </th>
+                        <th scope="col">Product Discount</th>
+                        <th scope="col">Action</th>
+
+                    </tr>
+                </thead>
+                <tbody class="align-middle text-center">
+
+
+
+                    @foreach (var prod in product)
+                    {
+
+                        //var dob = user.Dob.ToString("yyyy-MM-dd");
+                        <tr>
+                            <th scope="row">@prod.productId</th>
+                            <td>@prod.productName</td>
+                            <td>@prod.productType</td>
+                            <td>@prod.totalProducts</td>
+                            <td>@prod.unitPrice</td>
+                            <td>@prod.productDiscount</td>
+
+
+                            <td>
+                                <div class="btn-group">
+                                    <form asp-action="DeleteProduct" asp-route-id="@prod.productId" method="post">
+                                        <div class="d-grid d-md-flex d-sm-flex gap-1 gap-sm-2 d-md-block">
+                                            <a asp-action="EditProduct" asp-controller="Salesman" asp-route-id="@prod.productId" class="btn btn-outline-success mx-2"
+                                               style="border-radius: 10px">
+                                                Edit
+                                            </a>
+                                            <button type="submit" class="btn btn-outline-danger"
+                                                    style="border-radius: 10px">
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4">
+            <a asp-action="AddNewProduct" asp-controller="Product" class="btn btn-outline-success">Add a new Product</a>
+        </div>
+            
+    </div>
+</div>
+
+
+                            
+                                
+
+                                    
+
+                                    
+
+
+                                
